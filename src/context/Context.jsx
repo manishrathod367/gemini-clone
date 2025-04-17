@@ -13,6 +13,11 @@ const ContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
 
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check localStorage on load
+    const storedUser = localStorage.getItem('user');
+    return !!storedUser;
+    });
   const delayPara = (index, nextWord) => {
     setTimeout(function () {
       setResultData(prev => prev + nextWord);
@@ -76,7 +81,9 @@ const ContextProvider = (props) => {
     resultData,
     input,
     setInput,
-    newChat
+    newChat,
+    isAuthenticated,
+    setIsAuthenticated,
   };
 
   return (
