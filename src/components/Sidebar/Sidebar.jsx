@@ -7,7 +7,7 @@ const Sidebar = () => {
 
   const [extended,setExtended]=useState(false)
   const {onSent,prevPrompts,setRecentPrompt,newChat}=useContext(Context)
-
+  const { logout } = useContext(Context);
   const loadPrompt=async (prompt)=>{
     setRecentPrompt(prompt)
     await onSent(prompt)
@@ -47,6 +47,11 @@ const Sidebar = () => {
             <div className="bottom-item recent-entry">
             <img src={assets.setting_icon} alt="" />
             {extended?<p>Setting</p>:null}
+            </div>
+            <div>
+            <button onClick={logout} style={{ marginTop: 'auto', padding: '10px', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '5px' }}>
+              Logout
+             </button>
             </div>
 
         </div>

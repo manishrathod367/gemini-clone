@@ -28,6 +28,11 @@ const ContextProvider = (props) => {
     setLoading(false)
     setShowResult(false)
   }
+  const logout = () => {
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+  };
+  
 
   const onSent = async (prompt) => {
     setResultData("")
@@ -84,6 +89,7 @@ const ContextProvider = (props) => {
     newChat,
     isAuthenticated,
     setIsAuthenticated,
+    logout
   };
 
   return (

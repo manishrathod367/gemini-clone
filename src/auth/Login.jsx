@@ -1,23 +1,37 @@
 import React, { useState, useContext } from 'react';
 import './auth.css';
-//import { AuthContext } from '../context/Context';
 import { Context } from '../context/Context';
-
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const { setIsAuthenticated } = useContext(Context);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    if (storedUser?.email === email && storedUser?.password === password) {
-      setIsAuthenticated(true);
-      alert('Login successful!');
-    } else {
-      alert('Invalid credentials');
+    try {
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        setIsAuthenticated(true);
+        alert('Login successful!');
+        navigate('/');
+      } else {
+        alert(data.message || 'Invalid credentials');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Login failed, server error');
     }
   };
 
